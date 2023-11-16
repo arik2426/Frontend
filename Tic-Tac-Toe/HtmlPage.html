@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    
+    <title>TIC TAC TOE</title>
+    <style>
+        .avoid-clicks {
+            pointer-events: none;
+        }
+        .x {
+            background-image: url('x.png');
+            background-repeat: no-repeat;
+            background-size: 30px 30px;
+            background-position: center;
+        }
+        .circle {
+            background-image: url('circle.png'); 
+            background-repeat: no-repeat;
+            background-size: 30px 30px;
+            background-position: center;
+        }
+    </style>
+    <script>
+        const arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8'];
+
+        function getElemValue(elm) {
+            var a = document.getElementById(elm).value;
+            return a;
+        }
+        function checkForEmptyCells() {
+            var flag = false;
+            for (let i = 0; i < 9; i++) {
+                if (document.getElementById(i).classList.contains('x') || document.getElementById(i).classList.contains('circle') )
+                    flag = true;
+                else
+                    return false;
+            }
+            return flag;
+        }
+   
+        var sys = 1;
+        function checkWinning() {
+            const WINNING_COMB = [
+                [0, 1, 2],
+                [3, 4, 5],
+                [6, 7, 8],
+                [0, 3, 6],
+                [1, 4, 7],
+                [2, 5, 8],
+                [0, 4, 8],
+                [2, 4, 6]
+            ]
+            var kek = true;
+            for (var i = 0; i < WINNING_COMB.length; i++) {
+               
+                var a = document.getElementById(WINNING_COMB[i][0]);
+                var b = document.getElementById(WINNING_COMB[i][1]);
+                var c = document.getElementById(WINNING_COMB[i][2]);
+                if (a.classList.contains('x') && b.classList.contains('x') && c.classList.contains('x')) {
+                    disableAllButtons();
+                    let msg = "Player X won!";
+                    document.getElementById('print').innerHTML = msg;
+                    alert(msg);
+                    kek = false;
+
+                }
+               else if (a.classList.contains('circle') && b.classList.contains('circle') && c.classList.contains('circle')) {
+                    disableAllButtons();
+                    let msg = "Player O won!";
+                    document.getElementById('print').innerHTML = msg;
+                    alert(msg);
+                    kek = false;
+
+                }
+            }
+            
+            if (checkForEmptyCells() && kek) {
+                disableAllButtons();
+                let msg = "Draw!";
+                document.getElementById('print').innerHTML = msg;
+                alert(msg);
+            }
+        }
+              
+        function disableAllButtons() {
+            for (let i = 0; i < 9; i++) {
+                let val = arr[i];
+                document.getElementById(val).classList.add("avoid-clicks");
+            }
+        }
+        function handleClick(elm) {
+          
+            if (sys === 1) {
+                             
+                elm.classList = "x";
+                elm.classList.add("avoid-clicks");
+             
+                sys = 0;
+                              
+            }
+            else if (sys === 0) {
+                             
+                elm.classList = "circle";
+                sys = 1;
+                elm.classList.add("avoid-clicks");
+                                                                 
+            }
+      
+        }
+
+            function resetGame() {
+               location.reload();
+                for (var i in barr) {
+                    document.getElementById(i).value = '';
+                }
+            }
+        
+    </script>
+</head>
+<body>
+    <div id="board"></div>
+    
+    <div id="main">
+        <h1>TIC TAC TOE</h1>
+
+
+        <p>
+            click on the box to start
+            <br>
+        </p>
+
+        <br><br>
+        <table border="1" style="border-collapse: collapse; width:460px; height:460px">
+            <tr><td id="0" onclick="handleClick(this); checkWinning()"></td><td id="1" onclick="handleClick(this); checkWinning()"></td><td id="2" onclick="handleClick(this); checkWinning()"></td></tr>
+            <tr><td id="3" onclick="handleClick(this); checkWinning()"></td><td id="4" onclick="handleClick(this); checkWinning()"></td><td id="5" onclick="handleClick(this); checkWinning()"></td></tr>
+            <tr><td id="6" onclick="handleClick(this); checkWinning()"></td><td id="7" onclick="handleClick(this); checkWinning()"></td><td id="8" onclick="handleClick(this); checkWinning()"></td></tr>
+        </table>
+
+        <input type="button" value="Reset Game" onclick="resetGame()" />
+        <br>
+
+        <p id="print"></p>
+
+    </div>
+
+</body>
+</html>
